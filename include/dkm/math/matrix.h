@@ -754,7 +754,7 @@ public:
 
     virtual ~Vector() { }
 
-    ThisType CrossProduct(const ThisType& other) const {
+    ThisType cross(const ThisType& other) const {
         ThisType result;
         MatrixUtil::vectorCrossProduct(this->mData, other.mData, result.data());
         return result;

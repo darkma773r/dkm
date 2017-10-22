@@ -1,5 +1,5 @@
 /**
- * check_matrix.cpp
+ * matrix_test.cpp
  *
  * Unit tests for the Matrix template class.
  */
@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#include "dkm/math/math_test_helper.h"
+#include "dkm/math/math_test_helpers.h"
 
 using namespace dkm;
 
