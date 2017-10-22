@@ -224,6 +224,36 @@ TEST_F(MatrixTest, subscriptOperator_const){
     ASSERT_EQ(4, m[1][1]);
 }
 
+TEST_F(MatrixTest, functorCall){
+    // arrange
+    Matrix<2, 2, int> m;
+
+    // act
+    m(0, 0) = 1;
+    m(0, 1) = 2;
+    m(1, 0) = 3;
+    m(1, 1) = 4;
+
+    // assert
+    ASSERT_ARRAY_EQ(base4i, m.data(), 4);
+
+    ASSERT_EQ(1, m(0, 0));
+    ASSERT_EQ(2, m(0, 1));
+    ASSERT_EQ(3, m(1, 0));
+    ASSERT_EQ(4, m(1, 1));
+}
+
+TEST_F(MatrixTest, functorCall_const){
+    // arrange
+    const Matrix<2, 2, int> m(base4i);
+
+    // act/assert
+    ASSERT_EQ(1, m(0, 0));
+    ASSERT_EQ(2, m(0, 1));
+    ASSERT_EQ(3, m(1, 0));
+    ASSERT_EQ(4, m(1, 1));
+}
+
 TEST_F(MatrixTest, add){
     // arrange
     Matrix<2, 2, int> a(base4i);

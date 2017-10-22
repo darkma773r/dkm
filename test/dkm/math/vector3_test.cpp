@@ -87,9 +87,9 @@ TEST_F(Vector3Test, valueParamConstructor){
     Vector<3, int> v(3, 4, 5);
 
     // assert
-    ASSERT_EQ(3, v.x);
-    ASSERT_EQ(4, v.y);
-    ASSERT_EQ(5, v.z);
+    ASSERT_EQ(3, v.x());
+    ASSERT_EQ(4, v.y());
+    ASSERT_EQ(5, v.z());
 }
 
 TEST_F(Vector3Test, implicitArrayConstruction){
@@ -195,37 +195,50 @@ TEST_F(Vector3Test, subscriptOperator_const){
     ASSERT_EQ(3, v[2]);
 }
 
-TEST_F(Vector3Test, namedElementReferences){
+TEST_F(Vector3Test, namedAccessors){
     // arrange
     Vector<3, int> v(zeros3i);
 
     // act/assert
-    v.x = 1;
-    v.y = 2;
-    v.z = 3;
+    v.x(1);
+    v.y(2);
+    v.z(3);
 
-    ASSERT_EQ(1, v.x);
-    ASSERT_EQ(2, v.y);
-    ASSERT_EQ(3, v.z);
+    ASSERT_EQ(1, v.x());
+    ASSERT_EQ(2, v.y());
+    ASSERT_EQ(3, v.z());
 
     ASSERT_EQ(1, v[0]);
     ASSERT_EQ(2, v[1]);
     ASSERT_EQ(3, v[2]);
 }
 
-TEST_F(Vector3Test, namedElementReferences_copyConstructor){
+TEST_F(Vector3Test, namedAccessors_const){
     // arrange
-    Vector<3, int> orig(zeros3i);
-    Vector<3, int> v(orig);
+    const Vector<3, int> v(base3i);
 
     // act/assert
-    v.x = 1;
-    v.y = 2;
-    v.z = 3;
+    ASSERT_EQ(1, v.x());
+    ASSERT_EQ(2, v.y());
+    ASSERT_EQ(3, v.z());
 
-    ASSERT_EQ(1, v.x);
-    ASSERT_EQ(2, v.y);
-    ASSERT_EQ(3, v.z);
+    ASSERT_EQ(1, v[0]);
+    ASSERT_EQ(2, v[1]);
+    ASSERT_EQ(3, v[2]);
+}
+
+TEST_F(Vector3Test, namedAccessors_setByReference){
+    // arrange
+    Vector<3, int> v(zeros3i);
+
+    // act/assert
+    v.x() = 1;
+    v.y() = 2;
+    v.z() = 3;
+
+    ASSERT_EQ(1, v.x());
+    ASSERT_EQ(2, v.y());
+    ASSERT_EQ(3, v.z());
 
     ASSERT_EQ(1, v[0]);
     ASSERT_EQ(2, v[1]);
@@ -376,7 +389,7 @@ TEST_F(Vector3Test, scalarMultiplyOperator){
     ASSERT_ARRAY_EQ(base3d, a.data(), ArrayComparisonSize);
 }
 
-TEST_F(Vector3Test, ScalarMultiplyOperator_ScalarFirst){
+TEST_F(Vector3Test, scalarMultiplyOperator_ScalarFirst){
     // arrange
     Vector<3, double> a(base3d);
 

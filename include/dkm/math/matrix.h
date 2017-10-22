@@ -535,6 +535,17 @@ public:
     }
 
     /**
+    Overload the "()" operator to allow direct access by row and column. Callers
+    are responsible for staying within the bounds of the array.
+     */
+    T& operator()(size_t rowIdx, size_t colIdx) {
+        return this->mData[(rowIdx * ColsArg) + colIdx];
+    }
+    const T operator()(size_t rowIdx, size_t colIdx) const {
+        return this->mData[(rowIdx * ColsArg) + colIdx];
+    }
+
+    /**
     Returns a string representation of the Matrix.
     */
     std::string toString() const {
@@ -663,40 +674,42 @@ class Vector<2, T> : public _VectorBase<2, T, Vector<2, T> > {
     typedef _VectorBase<2, T, ThisType> SuperType;
 
 public:
-    // Alias for element 0 in the internal array
-    T& x;
-    // Alias for element 1 in the internal array
-    T& y;
-
-    Vector(const T* elements = NULL) :
-        SuperType(elements),
-        x(this->mData[0]),
-        y(this->mData[1]) { }
+    Vector(const T* elements = NULL) : SuperType(elements) { }
 
     Vector(T xValue, T yValue) :
-        SuperType(),
-        x(this->mData[0]),
-        y(this->mData[1]) {
+        SuperType() {
 
-        this->x = xValue;
-        this->y = yValue;
+        this->mData[0] = xValue;
+        this->mData[1] = yValue;
     }
-
-    // We need to override the default copy constructor
-    // since we have internal reference elements.
-    Vector(const ThisType& other) :
-        SuperType(other.mData),
-        x(this->mData[0]),
-        y(this->mData[1]) { }
 
     virtual ~Vector() { }
 
-    // We need to override the default assignment operator
-    // since we have internal reference elements.
-    ThisType& operator=(const ThisType& other) {
-        MatrixUtil::copy(other.mData, this->mData, 2);
-        return *this;
+    /**
+    Setter for the x value
+    */
+    void x(T value) { 
+        this->mData[0] = value;
     }
+
+    /**
+    Accessors for the x value.
+     */
+    T& x() { return this->mData[0]; }
+    const T x() const { return this->mData[0]; }
+
+    /**
+    Setter for the y value
+    */
+    void y(T value) { 
+        this->mData[1] = value;
+    }
+
+    /**
+    Accessors for the y value.
+     */
+    T& y() { return this->mData[1]; }
+    const T y() const { return this->mData[1]; }
 
     // Returns a unit vector representing the X axis.
     static ThisType xAxis() {
@@ -718,53 +731,62 @@ class Vector<3, T> : public _VectorBase<3, T, Vector<3, T> > {
     typedef _VectorBase<3, T, ThisType> SuperType;
 
 public:
-    // Alias for element 0 in the internal array
-    T& x;
-
-    // Alias for element 1 in the internal array
-    T& y;
-
-    // Alias for element 2 in the internal array
-    T& z;
-
-    Vector(const T* elements = NULL) :
-        SuperType(elements),
-        x(this->mData[0]),
-        y(this->mData[1]),
-        z(this->mData[2]) { }
+    
+    Vector(const T* elements = NULL) : SuperType(elements) { }
 
     Vector(T xValue, T yValue, T zValue) :
-        SuperType(),
-        x(this->mData[0]),
-        y(this->mData[1]),
-        z(this->mData[2]) {
+        SuperType() {
 
-        this->x = xValue;
-        this->y = yValue;
-        this->z = zValue;
+        this->mData[0] = xValue;
+        this->mData[1] = yValue;
+        this->mData[2] = zValue;
     }
 
-    // We need to override the default copy constructor
-    // since we have internal reference elements.
-    Vector(const ThisType& other) :
-        SuperType(other.mData),
-        x(this->mData[0]),
-        y(this->mData[1]),
-        z(this->mData[2]) { }
-
     virtual ~Vector() { }
+
+    /**
+    Setter for the x value
+    */
+    void x(T value) { 
+        this->mData[0] = value;
+    }
+
+    /**
+    Accessors for the x value.
+     */
+    T& x() { return this->mData[0]; }
+    const T x() const { return this->mData[0]; }
+
+    /**
+    Setter for the y value
+    */
+    void y(T value) { 
+        this->mData[1] = value;
+    }
+
+    /**
+    Accessors for the y value.
+     */
+    T& y() { return this->mData[1]; }
+    const T y() const { return this->mData[1]; }
+
+    /**
+    Setter for the z value
+    */
+    void z(T value) { 
+        this->mData[2] = value;
+    }
+
+    /**
+    Accessors for the z value.
+     */
+    T& z() { return this->mData[2]; }
+    const T z() const { return this->mData[2]; }
 
     ThisType cross(const ThisType& other) const {
         ThisType result;
         MatrixUtil::vectorCrossProduct(this->mData, other.mData, result.data());
         return result;
-    }
-
-    // We need to override the default assignment operator
-    // since we have internal reference elements.
-    ThisType& operator=(const ThisType& other) {
-        MatrixUtil::copy(other.mData, this->mData, 3);
-        return *this;
     }
 
     // Returns a unit vector representing the X axis.
@@ -792,52 +814,71 @@ class Vector<4, T> : public _VectorBase<4, T, Vector<4, T> > {
     typedef _VectorBase<4, T, ThisType > SuperType;
 
 public:
-    // Alias for element 0 in the internal array
-    T& x;
-    // Alias for element 1 in the internal array
-    T& y;
-    // Alias for element 2 in the internal array
-    T& z;
-    // Alias for element 3 in the internal array
-    T& w;
 
-    Vector(const T* elements = NULL) :
-        SuperType(elements),
-        x(this->mData[0]),
-        y(this->mData[1]),
-        z(this->mData[2]),
-        w(this->mData[3]) { }
+    Vector(const T* elements = NULL) : SuperType(elements) { }
 
     Vector(T xValue, T yValue, T zValue, T wValue) :
-        SuperType(),
-        x(this->mData[0]),
-        y(this->mData[1]),
-        z(this->mData[2]),
-        w(this->mData[3]) {
+        SuperType() {
 
-        this->x = xValue;
-        this->y = yValue;
-        this->z = zValue;
-        this->w = wValue;
+        this->mData[0] = xValue;
+        this->mData[1] = yValue;
+        this->mData[2] = zValue;
+        this->mData[3] = wValue;
     }
-
-    // We need to override the default copy constructor
-    // since we have internal reference elements.
-    Vector(const ThisType& other) :
-        SuperType(other.mData),
-        x(this->mData[0]),
-        y(this->mData[1]),
-        z(this->mData[2]),
-        w(this->mData[3]) { }
 
     virtual ~Vector() { }
 
-    // We need to override the default assignment operator
-    // since we have internal reference elements.
-    ThisType& operator=(const ThisType& other) {
-        MatrixUtil::copy(other.mData, this->mData, 4);
-        return *this;
+    /**
+    Setter for the x value
+    */
+    void x(T value) { 
+        this->mData[0] = value;
     }
+
+    /**
+    Accessors for the x value.
+     */
+    T& x() { return this->mData[0]; }
+    const T x() const { return this->mData[0]; }
+
+    /**
+    Setter for the y value
+    */
+    void y(T value) { 
+        this->mData[1] = value;
+    }
+
+    /**
+    Accessors for the y value.
+     */
+    T& y() { return this->mData[1]; }
+    const T y() const { return this->mData[1]; }
+
+    /**
+    Setter for the z value
+    */
+    void z(T value) { 
+        this->mData[2] = value;
+    }
+
+    /**
+    Accessors for the z value.
+     */
+    T& z() { return this->mData[2]; }
+    const T z() const { return this->mData[2]; }
+
+    /**
+    Setter for the w value
+    */
+    void w(T value) { 
+        this->mData[3] = value;
+    }
+
+    /**
+    Accessors for the w value.
+     */
+    T& w() { return this->mData[3]; }
+    const T w() const { return this->mData[3]; }
 
     // Returns a unit vector representing the X axis.
     static ThisType xAxis() {
@@ -861,8 +902,8 @@ public:
 };
 
 // create some useful typedefs
-typedef Matrix<4, 4, double> Mat4x4d;
-typedef Matrix<4, 4, float> Mat4x4f;
+typedef Matrix<4, 4, double> Mat4d;
+typedef Matrix<4, 4, float> Mat4f;
 
 typedef Vector<2, double> Vec2d;
 typedef Vector<2, float> Vec2f;

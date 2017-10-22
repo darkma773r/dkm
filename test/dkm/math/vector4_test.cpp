@@ -96,10 +96,10 @@ TEST_F(Vector4Test, valueParamConstructor){
     Vector<4, int> v(3, 4, 5, 6);
 
     // assert
-    ASSERT_EQ(3, v.x);
-    ASSERT_EQ(4, v.y);
-    ASSERT_EQ(5, v.z);
-    ASSERT_EQ(6, v.w);
+    ASSERT_EQ(3, v.x());
+    ASSERT_EQ(4, v.y());
+    ASSERT_EQ(5, v.z());
+    ASSERT_EQ(6, v.w());
 }
 
 TEST_F(Vector4Test, implicitArrayConstruction){
@@ -208,20 +208,20 @@ TEST_F(Vector4Test, subscriptOperator_const){
     ASSERT_EQ(4, v[3]);
 }
 
-TEST_F(Vector4Test, NamedElementReferences){
+TEST_F(Vector4Test, namedAccessors){
     // arrange
     Vector<4, int> v(zeros4i);
 
     // act/assert
-    v.x = 1;
-    v.y = 2;
-    v.z = 3;
-    v.w = 4;
+    v.x(1);
+    v.y(2);
+    v.z(3);
+    v.w(4);
 
-    ASSERT_EQ(1, v.x);
-    ASSERT_EQ(2, v.y);
-    ASSERT_EQ(3, v.z);
-    ASSERT_EQ(4, v.w);
+    ASSERT_EQ(1, v.x());
+    ASSERT_EQ(2, v.y());
+    ASSERT_EQ(3, v.z());
+    ASSERT_EQ(4, v.w());
 
     ASSERT_EQ(1, v[0]);
     ASSERT_EQ(2, v[1]);
@@ -229,21 +229,36 @@ TEST_F(Vector4Test, NamedElementReferences){
     ASSERT_EQ(4, v[3]);
 }
 
-TEST_F(Vector4Test, namedElementReferences_copyConstructor){
+TEST_F(Vector4Test, namedAccessors_const){
     // arrange
-    Vector<4, int> orig(zeros4i);
-    Vector<4, int> v(orig);
+    const Vector<4, int> v(base4i);
 
     // act/assert
-    v.x = 1;
-    v.y = 2;
-    v.z = 3;
-    v.w = 4;
+    ASSERT_EQ(1, v.x());
+    ASSERT_EQ(2, v.y());
+    ASSERT_EQ(3, v.z());
+    ASSERT_EQ(4, v.w());
 
-    ASSERT_EQ(1, v.x);
-    ASSERT_EQ(2, v.y);
-    ASSERT_EQ(3, v.z);
-    ASSERT_EQ(4, v.w);
+    ASSERT_EQ(1, v[0]);
+    ASSERT_EQ(2, v[1]);
+    ASSERT_EQ(3, v[2]);
+    ASSERT_EQ(4, v[3]);
+}
+
+TEST_F(Vector4Test, namedAccessors_setByReferences){
+    // arrange
+    Vector<4, int> v(zeros4i);
+    
+    // act/assert
+    v.x() = 1;
+    v.y() = 2;
+    v.z() = 3;
+    v.w() = 4;
+
+    ASSERT_EQ(1, v.x());
+    ASSERT_EQ(2, v.y());
+    ASSERT_EQ(3, v.z());
+    ASSERT_EQ(4, v.w());
 
     ASSERT_EQ(1, v[0]);
     ASSERT_EQ(2, v[1]);

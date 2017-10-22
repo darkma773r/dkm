@@ -195,53 +195,75 @@ class Quaternion : public _VectorBase<4, T, Quaternion<T> > {
     typedef _VectorBase<4, T, Quaternion<T> > SuperType;
 
 public:
-    // Alias for element 0 in the internal array
-    T& x;
-    // Alias for element 1 in the internal array
-    T& y;
-    // Alias for element 2 in the internal array
-    T& z;
-    // Alias for element 3 in the internal array
-    T& w;
 
-    Quaternion(const T* elements = NULL) :
-        SuperType(elements),
-        x(this->mData[0]),
-        y(this->mData[1]),
-        z(this->mData[2]),
-        w(this->mData[3]) { }
+    Quaternion(const T* elements = NULL) : SuperType(elements) { }
 
     Quaternion(const Vector<3, T>& vec3, double radians) :
-        SuperType(),
-        x(this->mData[0]),
-        y(this->mData[1]),
-        z(this->mData[2]),
-        w(this->mData[3]) {
+        SuperType() {
         QuaternionUtil::rotationToQuaternion(vec3.data(), radians, this->mData);
     }
 
     Quaternion(T xValue, T yValue, T zValue, T wValue) :
-        SuperType(),
-        x(this->mData[0]),
-        y(this->mData[1]),
-        z(this->mData[2]),
-        w(this->mData[3]) {
-        this->x = xValue;
-        this->y = yValue;
-        this->z = zValue;
-        this->w = wValue;
+        SuperType() {
+        this->mData[0] = xValue;
+        this->mData[1] = yValue;
+        this->mData[2] = zValue;
+        this->mData[3] = wValue;
     }
 
-    // We need to override the default copy constructor
-    // since we have internal reference elements.
-    Quaternion(const ThisType& other) :
-        SuperType(other.mData),
-        x(this->mData[0]),
-        y(this->mData[1]),
-        z(this->mData[2]),
-        w(this->mData[3]) { }
-
     virtual ~Quaternion() { }
+
+    /**
+    Setter for the x value
+    */
+    void x(T value) { 
+        this->mData[0] = value;
+    }
+
+    /**
+    Accessors for the x value.
+     */
+    T& x() { return this->mData[0]; }
+    const T x() const { return this->mData[0]; }
+
+    /**
+    Setter for the y value
+    */
+    void y(T value) { 
+        this->mData[1] = value;
+    }
+
+    /**
+    Accessors for the y value.
+     */
+    T& y() { return this->mData[1]; }
+    const T y() const { return this->mData[1]; }
+
+    /**
+    Setter for the z value
+    */
+    void z(T value) { 
+        this->mData[2] = value;
+    }
+
+    /**
+    Accessors for the z value.
+     */
+    T& z() { return this->mData[2]; }
+    const T z() const { return this->mData[2]; }
+
+    /**
+    Setter for the w value
+    */
+    void w(T value) { 
+        this->mData[3] = value;
+    }
+
+    /**
+    Accessors for the w value.
+     */
+    T& w() { return this->mData[3]; }
+    const T w() const { return this->mData[3]; }
 
     // Applies the rotation defined by the quaternion argument to this quaternion.
     void rotate(ThisType& other) {
@@ -277,10 +299,10 @@ public:
     // Returns a new Quaternion set to the identity value.
     static Quaternion identity() {
         Quaternion result;
-        result.x = static_cast<T>(0);
-        result.y = static_cast<T>(0);
-        result.z = static_cast<T>(0);
-        result.w = static_cast<T>(1);
+        result.mData[0] = static_cast<T>(0);
+        result.mData[1] = static_cast<T>(0);
+        result.mData[2] = static_cast<T>(0);
+        result.mData[3] = static_cast<T>(1);
 
         return result;
     }
