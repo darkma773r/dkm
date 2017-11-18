@@ -1,45 +1,13 @@
 /**
- * log.h
- * 
- * Basic logging system. 
+ * Basic logging system.
  */
 
- #ifndef _DKM_LOG_H_
- #define _DKM_LOG_H_
+#ifndef _DKM_LOG_H_
+#define _DKM_LOG_H_
 
-#include <string>
+#include "dkm/util/log/defs.h"
+#include "dkm/util/log/logger.h"
+#include "dkm/util/log/log_writer.h"
+#include "dkm/util/log/logging.h"
 
-#include 
-namespace dkm
-{
-
-class Logger : NonCopyable
-{
-public:
-    Logger();
-
-    virtual ~Logger() { }
-
-    void trace(const char* fmt, ...);
-    void debug(const char* fmt, ...);
-    void info(const char* fmt, ...);
-    void warn(const char* fmt, ...);
-    void error(const char* fmt, ...);
-
-private:
-
-    std::string mName;
-    std::string mFileName;
-}
-
-class Logging : NonCopyable
-{
-public:
-    static Logging& getInstance();
-
-    Logging();
-}
-
-}
-
- #endif
+#endif
