@@ -33,7 +33,7 @@ public:
 
     const std::string& getName() const { return mName; }
 
-    LogLevel getLogLevel() const { return mLogLevel; }
+    LogLevel getLogLevel() const { return mLogLevel.load(); }
     void setLogLevel(LogLevel logLevel) {
         this->mLogLevel = logLevel;
     }
@@ -42,8 +42,8 @@ private:
 
     std::string mName;
 
-    LogLevel mLogLevel;
-}
+    std::atomic<LogLevel> mLogLevel;
+};
 
 }
 
